@@ -19,10 +19,10 @@ public class DataLoader implements CommandLineRunner {
 
         //Enum<Papel> papelEnum = new Papel("usuario");
 
-        Usuario clara = new Usuario("Clara", "84 99167 9677", "clara", "password");
-        usuarioService.save(clara);
+        //Usuario clara = new Usuario("Clara", "84 99167 9677", "clara", "password");
+        //usuarioService.save(clara);
 
-        Ofertas ofertaClara = new Ofertas(1,"pastel", "pastel de frango", "salgado", 3, true, clara);
-        ofertasService.save(ofertaClara);
+        //Ofertas ofertaClara = new Ofertas(1,"pastel", "pastel de frango", "salgado", 3, true, clara);
+        //ofertasService.save(ofertaClara);
     }
 }
