@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  database:
+    restart: always
+    image: postgres:latest
+    container_name: postgres-tads-food-api
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
