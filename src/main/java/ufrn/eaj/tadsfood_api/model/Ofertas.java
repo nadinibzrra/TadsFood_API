@@ -15,11 +15,27 @@ import java.io.Serializable;
 public class Ofertas implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_oferta")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String descricao;
-    private String tipo;
-    private float valor;
-    private boolean status;
+    String titulo;
+    String descricao;
+    String tipo;
+    float valor;
+    boolean status;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario")
+    Usuario usuario;
+
+    /*
+    public Ofertas(String titulo, String descricao, String tipo, float valor, boolean status, Usuario usuario){
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.tipo = tipo;
+        this.valor = valor;
+        this.status = status;
+        this.usuario = usuario;
+    }
+     */
 }

@@ -12,6 +12,7 @@ import ufrn.eaj.tadsfood_api.model.Usuario;
 import ufrn.eaj.tadsfood_api.repository.UsuarioRepository;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,11 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     UsuarioRepository repository;
+
+    @Autowired
+    public void setRepository(UsuarioRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,5 +42,13 @@ public class UsuarioService implements UserDetailsService {
 
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    public List<Usuario> findAll(){
+        return repository.findAll();
+    }
+
+    public Usuario save(Usuario usuario){
+        return repository.save(usuario);
     }
 }

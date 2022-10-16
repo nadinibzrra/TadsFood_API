@@ -1,4 +1,4 @@
-package ufrn.eaj.tadsfood_api.enuns;
+package ufrn.eaj.tadsfood_api.enums;
 
 public enum Papel {
     USUARIO("usuario"), ADMINISTRADOR("administrador"), SUPER("super");

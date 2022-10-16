@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Entity
@@ -15,23 +14,24 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long id;
-
     String nome;
-    String celular;
+    String telefone;
     String username;
     String password;
     String papel;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ofertas_id")
-    List<Ofertas> ofertas;
-
-    public Usuario(String nome, String celular, String username, String password, Enum papel, List<Ofertas> ofertas) {
+    public Usuario(String nome, String telefone, String username, String password, Enum papel) {
         this.nome = nome;
-        this.celular = celular;
+        this.telefone = telefone;
         this.username = username;
         this.password = password;
         this.papel = String.valueOf(papel);
-        this.ofertas = ofertas;
+    }
+
+    public Usuario(String nome, String telefone, String username, String password) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.username = username;
+        this.password = password;
     }
 }
