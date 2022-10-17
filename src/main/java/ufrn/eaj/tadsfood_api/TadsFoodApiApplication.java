@@ -21,6 +21,7 @@ public class TadsFoodApiApplication {
     @Autowired
     private UsuarioRepository repository;
 
+    /*
     @PostConstruct
     public void initUsers() {
 
@@ -37,6 +38,7 @@ public class TadsFoodApiApplication {
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+     */
 
     public static void main(String[] args) {
         SpringApplication.run(TadsFoodApiApplication.class, args);

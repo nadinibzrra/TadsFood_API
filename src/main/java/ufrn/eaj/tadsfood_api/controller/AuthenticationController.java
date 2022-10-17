@@ -33,6 +33,6 @@ public class AuthenticationController {
 
         String token = tokenService.generateToken(authentication);
 
-        return ResponseEntity.ok(new TokenDTO("Bearer", token));
+        return ResponseEntity.ok(new TokenDTO("Bearer", loginDTO.getUsername(), token));
     }
 }

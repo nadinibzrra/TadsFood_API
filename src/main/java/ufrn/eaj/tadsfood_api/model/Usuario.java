@@ -2,6 +2,9 @@ package ufrn.eaj.tadsfood_api.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ufrn.eaj.tadsfood_api.enums.Papel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +27,15 @@ public class Usuario implements Serializable {
         this.nome = nome;
         this.telefone = telefone;
         this.username = username;
-        this.password = password;
+        this.password = encoder().encode(password);
         this.papel = String.valueOf(papel);
+    }
+
+    public void setPassword(String password) {
+        this.password = encoder().encode(password);
+    }
+
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 }
