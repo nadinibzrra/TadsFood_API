@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ufrn.eaj.tadsfood_api.dto.LoginDTO;
 import ufrn.eaj.tadsfood_api.dto.TokenDTO;
 import ufrn.eaj.tadsfood_api.service.TokenService;
+import ufrn.eaj.tadsfood_api.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,6 +25,9 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> auth(@RequestBody @Validated LoginDTO loginDTO){
 
@@ -33,6 +37,6 @@ public class AuthenticationController {
 
         String token = tokenService.generateToken(authentication);
 
-        return ResponseEntity.ok(new TokenDTO("Bearer", loginDTO.getUsername(), token));
+        return ResponseEntity.ok(new TokenDTO("Bearer", usuarioService.retornaUsuarioLogin(loginDTO.getUsername()), token));
     }
 }

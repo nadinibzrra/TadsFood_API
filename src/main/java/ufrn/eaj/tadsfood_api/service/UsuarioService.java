@@ -40,6 +40,15 @@ public class UsuarioService implements UserDetailsService {
         throw new UsernameNotFoundException("User not found");
     }
 
+    public Usuario retornaUsuarioLogin(String username) throws UsernameNotFoundException {
+        Usuario optional = repository.findByUsername(username);
+
+        if(optional != null) {
+            return optional;
+        }
+        throw new UsernameNotFoundException("User not found");
+    }
+
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
@@ -51,4 +60,18 @@ public class UsuarioService implements UserDetailsService {
     public Usuario save(Usuario usuario){
         return repository.save(usuario);
     }
+
+    /*
+    public Optional<Usuario> findUsuarioById(Long id){
+        return repository.findUsuarioBy(id);
+    }
+
+    public Optional<Usuario> findById(Long id){
+        return repository.findById(id);
+    }
+     */
+    public Usuario findByUsername(String username){
+        return repository.findByUsername(username);
+    }
+
 }
