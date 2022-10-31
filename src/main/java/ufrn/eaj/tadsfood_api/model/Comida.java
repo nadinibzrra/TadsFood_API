@@ -1,5 +1,7 @@
 package ufrn.eaj.tadsfood_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,8 +39,8 @@ public class Comida {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    //@JsonIgnore
-    //@JsonManagedReference
+    @JsonIgnore
+    @JsonManagedReference
     private Usuario usuario;
 
     public Comida(String titulo, String descricao, String tipo,float valor,boolean status, Usuario usuario) {
