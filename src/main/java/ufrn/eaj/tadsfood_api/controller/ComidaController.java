@@ -26,12 +26,41 @@ public class ComidaController {
     public List<Comida> listar(){
         return comidaService.findAll();
     }
-   /*
-    @PostMapping()
-    public ResponseEntity<Comida> salvar(@RequestBody Comida comida, @AuthenticationPrincipal Usuario logado){
-        comida.setUsuario(logado);
-        Comida c = comidaService.save(comida);
-        return ResponseEntity.status(HttpStatus.CREATED).body(c);
+
+    @GetMapping(path = {"/{id}"})
+    public ResponseEntity<Comida> getComidaById(@PathVariable Long id){
+        Comida comidaEncontrada = comidaService.findComidaById(id);
+        if (comidaEncontrada == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(comidaEncontrada);
     }
-    */
+
+   @PutMapping(path = "/{id}")
+   public ResponseEntity<Comida> editarComida(@PathVariable Long id, @RequestBody Comida c, @AuthenticationPrincipal Usuario logado){
+       Comida comida = comidaService.findComidaById(id);
+       if(comida.getId() == c.getId()){
+           comida.setUsuario(logado);
+           return new ResponseEntity<>(comidaService.update(comida), HttpStatus.OK);
+       }
+       return ResponseEntity.notFound().build();
+       /*
+       Optional<Comida> comida = comidaService.findById(id);
+       if(comida.isPresent() && comida.get().getId() == c.getId()){
+           c.setUsuario(logado);
+           return ResponseEntity.ok(comidaService.update(c));
+       }else{
+           return ResponseEntity.notFound().build();
+       }
+        */
+   }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deletarComida(@PathVariable Long id){
+        return comidaService.findById(id)
+                .map( record -> {
+                    comidaService.delete(record.getId());
+                    return ResponseEntity.ok(200);
+                }).orElse(ResponseEntity.notFound().build());
+    }
 }

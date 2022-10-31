@@ -3,6 +3,8 @@ package ufrn.eaj.tadsfood_api.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -32,8 +34,11 @@ public class Comida {
     @Column
     private boolean status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    //@JsonIgnore
+    //@JsonManagedReference
     private Usuario usuario;
 
     public Comida(String titulo, String descricao, String tipo,float valor,boolean status, Usuario usuario) {

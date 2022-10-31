@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ufrn.eaj.tadsfood_api.model.Comida;
 import ufrn.eaj.tadsfood_api.model.Usuario;
+import ufrn.eaj.tadsfood_api.repository.ComidaReposytory;
 import ufrn.eaj.tadsfood_api.repository.UsuarioRepository;
 
 import java.util.Collections;
@@ -17,6 +19,13 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService implements UserDetailsService {
+
+    private ComidaService comidaService;
+
+    @Autowired
+    public void setComidaService(ComidaService comidaService) {
+        this.comidaService = comidaService;
+    }
 
     @Autowired
     UsuarioRepository repository;
@@ -61,17 +70,60 @@ public class UsuarioService implements UserDetailsService {
         return repository.save(usuario);
     }
 
-    /*
-    public Optional<Usuario> findUsuarioById(Long id){
-        return repository.findUsuarioBy(id);
-    }
-
-    public Optional<Usuario> findById(Long id){
-        return repository.findById(id);
-    }
-     */
     public Usuario findByUsername(String username){
         return repository.findByUsername(username);
     }
 
+    public Boolean existeUsername(String username) {
+        Optional<Usuario> userEncontrado = repository.findUsuarioByUsername(username);
+        return userEncontrado.isPresent();
+    }
+
+    public Usuario findUsuarioById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public Optional<Usuario> findById(Long id) {
+        return repository.findUsuarioById(id);
+    }
+
+    public Usuario update(Usuario usuario){
+        return repository.saveAndFlush(usuario);
+    }
+
+    public void delete(Long id){
+        /*
+        List<Comida> comidaList = comidaService.findAll();
+        //int numberComidas;
+        Usuario usuario;
+
+        for (Comida comida : comidaList) {
+            usuario = comida.getUsuario();
+            //numberComidas = comidaList.size();
+            //for (int i = 0; i < numberComidas; i++) {
+                //if (comidaList.get(i).getUsuario().equals(user)) {
+                if (usuario.equals(user)) {
+                    comidaService.delete(comida.getId());
+                    //numberComidas--;
+                    //patientRepo.save(patient);
+                }
+            //}
+        }
+        repository.delete(user);
+
+         */
+        repository.deleteById(id);
+        /*
+        List<Comida> comidaList = comidaService.findAll();
+        for (Comida comida : comidaList){
+            if (comida.getUsuario() != null){
+                if (comida.getUsuario().equals(usuario)){
+                    comidaService.deleteComida(comida);
+                    break;
+                }
+            }
+        }
+        repository.deleteById(id);
+         */
+    }
 }

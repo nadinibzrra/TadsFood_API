@@ -11,6 +11,7 @@ import ufrn.eaj.tadsfood_api.service.ComidaService;
 import ufrn.eaj.tadsfood_api.service.UsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
@@ -34,28 +35,48 @@ public class UsuarioController {
     public List<Usuario> listar(){
         return usuarioService.findAll();
     }
-    /*
+
     @GetMapping(path = {"/{id}"})
-    public ResponseEntity<Usuario> getClienteById(@PathVariable Long id){
-
-        Usuario c = usuarioService.findUsuarioById(id);
-
-        if(c.isEmpty()){
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id){
+        Usuario userEncontrado = usuarioService.findUsuarioById(id);
+        if (userEncontrado == null) {
             return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok().body(c.get());
         }
+        return ResponseEntity.ok().body(userEncontrado);
     }
-    */
+
     @PostMapping
     public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario){
+        if (usuarioService.existeUsername(usuario.getUsername())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         Usuario user  = usuarioService.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Usuario> editar(@PathVariable Long id, @RequestBody Usuario u){
+        Optional<Usuario> usuario = usuarioService.findById(id);
+        if(usuario.isPresent() && usuario.get().getId() == u.getId()){
+            return ResponseEntity.ok(usuarioService.update(u));
+        }else{
+            return ResponseEntity.notFound().build();
+        }
 
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deletar(@PathVariable Long id){
+        return usuarioService.findById(id)
+                .map( record -> {
+                    usuarioService.delete(record.getId());
+                    return ResponseEntity.ok(200);
+                }).orElse(ResponseEntity.notFound().build());
+    }
+
+    //rota comida
     @PostMapping(path = "/{id}/comida")
-    public ResponseEntity<?> salvar(@PathVariable Long id,@RequestBody Comida comida, @AuthenticationPrincipal Usuario logado){
+    public ResponseEntity<?> salvarComida(@PathVariable Long id,@RequestBody Comida comida, @AuthenticationPrincipal Usuario logado){
         if(logado.getId() == id){
             comida.setUsuario(logado);
             Comida c = comidaService.save(comida);
@@ -63,5 +84,4 @@ public class UsuarioController {
         }
         return ResponseEntity.notFound().build();
     }
-
 }
