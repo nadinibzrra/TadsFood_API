@@ -8,9 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ufrn.eaj.tadsfood_api.model.Comida;
 import ufrn.eaj.tadsfood_api.model.Usuario;
-import ufrn.eaj.tadsfood_api.repository.ComidaReposytory;
 import ufrn.eaj.tadsfood_api.repository.UsuarioRepository;
 
 import java.util.Collections;
@@ -91,39 +89,7 @@ public class UsuarioService implements UserDetailsService {
         return repository.saveAndFlush(usuario);
     }
 
-    public void delete(Long id){
-        /*
-        List<Comida> comidaList = comidaService.findAll();
-        //int numberComidas;
-        Usuario usuario;
-
-        for (Comida comida : comidaList) {
-            usuario = comida.getUsuario();
-            //numberComidas = comidaList.size();
-            //for (int i = 0; i < numberComidas; i++) {
-                //if (comidaList.get(i).getUsuario().equals(user)) {
-                if (usuario.equals(user)) {
-                    comidaService.delete(comida.getId());
-                    //numberComidas--;
-                    //patientRepo.save(patient);
-                }
-            //}
-        }
-        repository.delete(user);
-
-         */
-        repository.deleteById(id);
-        /*
-        List<Comida> comidaList = comidaService.findAll();
-        for (Comida comida : comidaList){
-            if (comida.getUsuario() != null){
-                if (comida.getUsuario().equals(usuario)){
-                    comidaService.deleteComida(comida);
-                    break;
-                }
-            }
-        }
-        repository.deleteById(id);
-         */
+    public void delete(Usuario usuario){
+        repository.delete(usuario);
     }
 }

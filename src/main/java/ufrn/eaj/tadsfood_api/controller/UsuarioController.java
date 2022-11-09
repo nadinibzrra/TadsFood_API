@@ -10,6 +10,7 @@ import ufrn.eaj.tadsfood_api.model.Usuario;
 import ufrn.eaj.tadsfood_api.service.ComidaService;
 import ufrn.eaj.tadsfood_api.service.UsuarioService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,16 +63,18 @@ public class UsuarioController {
         }else{
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deletar(@PathVariable Long id){
-        return usuarioService.findById(id)
-                .map( record -> {
-                    usuarioService.delete(record.getId());
-                    return ResponseEntity.ok(200);
-                }).orElse(ResponseEntity.notFound().build());
+        Usuario userEncontrado = usuarioService.findUsuarioById(id);
+        var responseMsg = new HashMap<>();
+        responseMsg.put("mensagem", "O Usuário foi deletado com sucesso");
+        if (userEncontrado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        usuarioService.delete(userEncontrado);
+        return ResponseEntity.ok().body(responseMsg);
     }
 
     //rota comida

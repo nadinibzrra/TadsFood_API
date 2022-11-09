@@ -1,7 +1,6 @@
 package ufrn.eaj.tadsfood_api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +9,7 @@ import ufrn.eaj.tadsfood_api.model.Usuario;
 import ufrn.eaj.tadsfood_api.service.ComidaService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/comida")
@@ -38,13 +38,6 @@ public class ComidaController {
 
    @PutMapping(path = "/{id}")
    public ResponseEntity<Comida> editarComida(@PathVariable Long id, @RequestBody Comida c, @AuthenticationPrincipal Usuario logado){
-       Comida comida = comidaService.findComidaById(id);
-       if(comida.getId() == c.getId()){
-           comida.setUsuario(logado);
-           return new ResponseEntity<>(comidaService.update(comida), HttpStatus.OK);
-       }
-       return ResponseEntity.notFound().build();
-       /*
        Optional<Comida> comida = comidaService.findById(id);
        if(comida.isPresent() && comida.get().getId() == c.getId()){
            c.setUsuario(logado);
@@ -52,7 +45,6 @@ public class ComidaController {
        }else{
            return ResponseEntity.notFound().build();
        }
-        */
    }
 
     @DeleteMapping(path = "/{id}")
