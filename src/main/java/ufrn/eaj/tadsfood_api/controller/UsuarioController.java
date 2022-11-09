@@ -75,6 +75,7 @@ public class UsuarioController {
         }
         usuarioService.delete(userEncontrado);
         return ResponseEntity.ok().body(responseMsg);
+        //de
     }
 
     //rota comida

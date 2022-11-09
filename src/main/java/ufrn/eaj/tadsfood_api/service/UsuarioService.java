@@ -90,6 +90,7 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public void delete(Usuario usuario){
+        //de
         repository.delete(usuario);
     }
 }
